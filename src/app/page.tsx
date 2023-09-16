@@ -1,18 +1,21 @@
 "use client";
-
-import { useAppSelector } from '@/redux/store';
-import Login from './Login'
+import Post from "@/components/cards/Post";
+import { useAppSelector } from "@/redux/store";
 
 export default function Home() {
-  const username = useAppSelector(state => state.authReducer.value.username);
-  const isModerator = useAppSelector(state => state.authReducer.value.isModerator)
+  const posts = useAppSelector(state => state.postsSlice.posts);
 
   return (
-    <div>
-      <Login />
-
-      <h1 className='text-center'>Username: {username}</h1>
-      {isModerator && <h1>This User Is A Moderator</h1>}
+    <div className="w-full columns-1 sm:columns-2 md:columns-3 space-y-4">
+      {posts.map(post => (
+        <Post
+          key={post.id}
+          id={post.id}
+          title={post.title}
+          description={post.description}
+          createdAt={post.createdAt}
+        />
+      ))}
     </div>
   )
 }
